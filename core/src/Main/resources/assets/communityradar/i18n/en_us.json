@@ -1,0 +1,90 @@
+{
+  "communityradar": {
+    "settings": {
+      "name": "CommunityRadar",
+      "enabled": {
+        "name": "Enabled"
+      },
+      "markInChat": {
+        "name": "Mark in Chat",
+        "description": "If a player is on a list, chat messages from this player will get marked."
+      },
+      "markOverHead": {
+        "name": "Mark in Nametag / Tab",
+        "description": "If a player is on a list, their nametag will get marked."
+      },
+      "scammerSubConfig": {
+        "name": "Scammer List by CommunityRadar",
+        "description": "If enabled, the scammer list from the CommunityRadar will get loaded.",
+        "prefix": {
+          "name": "Prefix",
+          "description": "Prefix, that marks scammers."
+        }
+      },
+      "trustedMMSubConfig": {
+        "name": "Trusted MM List by verbvllert_",
+        "description": "If enabled, the trusted MM list from verbvllert_ will get loaded.",
+        "prefix": {
+          "name": "Prefix",
+          "description": "Prefix, that marks trusted MMs."
+        }
+      },
+      "openDiscord" : {
+        "text" : "Open invite link",
+        "name" : "Community Discord",
+        "description" : "Invite link to the official community Discord server."
+      },
+      "openGitHub" : {
+        "text" : "Open Github repository",
+        "name" : "Github repository",
+        "description" : "Link to the official Github repositorys."
+      }
+    },
+    "command": {
+      "missingargument": "§cNot enough arguments. Check /radar help for syntax.",
+      "listen": "Lists:",
+      "list": {
+        "add": {
+          "success": "§aList got created!",
+          "failed": "§cFailed to create list. Is the namespace unique?"
+        },
+        "delete": {
+          "success": "§aList got deleted!",
+          "failed": "§cFailed to delete list. Is the name correct? And is it a private list?"
+        },
+        "show": {
+          "success": "§7List: §6{list}§7, Prefix: §6{prefix}§7, §7Member:§6",
+          "failed": "§cFailed to show list. Is the name correct?"
+        },
+        "prefix": {
+          "success": "§aPrefix got changed to {prefix}.",
+          "failed": "§cFailed to change prefix. "
+        }
+      },
+      "check": {
+        "everyone": "§7Online player in a list:",
+        "nopersoninlist" : " §cThere is no person online, that is on one of you lists.",
+        "singleplayer": {
+          "found": "Player found in list:",
+          "name" : "Name:",
+          "notice" : "Notice:",
+          "dates" : "Dates:",
+          "prefix" : "Prefix:"
+        },
+        "failed": "§cDidn´t found the given player on any list."
+      },
+      "player" : {
+        "add" : {
+          "success" : "§aPlayer got added to the list.",
+          "failed" : "§cCannot add player. Did you use a private list?",
+          "inlist" : "The player is already on a list."
+        },
+        "remove" : {
+          "success" : "§aPlayer got removed from the list.",
+          "failed" : "§cCannot remove player. Did you use a private list?",
+          "notinlist" : "The player is not on any list."
+        }
+      }
+    }
+  }
+}
