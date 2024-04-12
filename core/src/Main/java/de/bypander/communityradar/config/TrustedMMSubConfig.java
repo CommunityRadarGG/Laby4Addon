@@ -11,7 +11,7 @@ public class TrustedMMSubConfig extends Config {
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
 
   @TextFieldSetting
-  private final ConfigProperty<String> prefix = new ConfigProperty<>("&7[&aTrusted&7]&r");
+  private final ConfigProperty<String> prefix = new ConfigProperty<>("&7[&aMM&7]&r");
 
   public ConfigProperty<Boolean> getEnabled() {
     return enabled;

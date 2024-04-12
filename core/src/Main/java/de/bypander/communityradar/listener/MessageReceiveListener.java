@@ -43,11 +43,18 @@ public class MessageReceiveListener {
 
 
     String prefix = manager.getPrefix(matcher.group(2).trim());
-    if (prefix.equals("§scammer"))
+    if (prefix.equals("§scammer")) {
+      if (!addon.configuration().getScammerSubConfig().getEnabled().get())
+        return;
       prefix = addon.configuration().getScammerSubConfig().getPrefix().get();
+    }
 
-    if (prefix.equals("§trusted"))
+    if (prefix.equals("§trusted")) {
+      if (!addon.configuration().getTrustedMMSubConfig().getEnabled().get())
+        return;
       prefix = addon.configuration().getTrustedMMSubConfig().getPrefix().get();
+    }
+
 
     int index = 0;
     for (int i = 0; i < event.chatMessage().component().getChildren().size(); i++) {

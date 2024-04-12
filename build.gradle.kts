@@ -15,7 +15,7 @@ labyMod {
         author = "ByPander"
         description = "An addon to mark scammer and other people on GrieferGames. "
         minecraftVersion = "*"
-        version = System.getenv().getOrDefault("VERSION", "0.0.1")
+        version = System.getenv().getOrDefault("VERSION", "1.0.0")
     }
 
     minecraft {

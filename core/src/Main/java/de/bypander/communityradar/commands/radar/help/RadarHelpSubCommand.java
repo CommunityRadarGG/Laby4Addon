@@ -15,7 +15,7 @@ public class RadarHelpSubCommand extends SubCommand {
     sb.append("§8§l§n--------- §cRadar-Hilfe §8§l§n---------§r\n");
     sb.append(
       "§7Custom listen:\n" +
-        "§c/radar listen §7--> Zeigt einem alle Listen an.\n" +
+        "§c/radar listen §7--> §6Zeigt einem alle Listen an.\n" +
         "§c/radar list add §e<Name> <Prefix> §7--> §6Erstellt eine Liste.\n" +
         "§c/radar list prefix §e<Name> <Prefix> §7--> §6Ändert den Prefix einer Liste.\n" +
         "§c/radar list delete §e<Name> §7--> §6Löscht eine Liste.\n" +

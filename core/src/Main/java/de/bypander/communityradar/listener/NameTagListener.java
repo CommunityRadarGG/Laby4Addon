@@ -4,12 +4,9 @@ import de.bypander.communityradar.CommunityRadar;
 import de.bypander.communityradar.ListManager.ListManger;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
-import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.render.PlayerNameTagRenderEvent;
-import net.labymod.serverapi.protocol.model.display.Subtitle;
 
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +20,7 @@ public class NameTagListener {
     manager = ListManger.get();
   }
 
-  @Subscribe
+  @Subscribe(100)
   public void onRender(PlayerNameTagRenderEvent event) {
     if (!addon.configuration().getMarkOverHead().get())
       return;
@@ -37,11 +34,17 @@ public class NameTagListener {
       return;
 
     String prefix = manager.getPrefix(matcher.group(2).trim());
-    if (prefix.equals("§scammer"))
+    if (prefix.equals("§scammer")) {
+      if (!addon.configuration().getScammerSubConfig().getEnabled().get())
+        return;
       prefix = addon.configuration().getScammerSubConfig().getPrefix().get();
+    }
 
-    if (prefix.equals("§trusted"))
+    if (prefix.equals("§trusted")) {
+      if (!addon.configuration().getTrustedMMSubConfig().getEnabled().get())
+        return;
       prefix = addon.configuration().getTrustedMMSubConfig().getPrefix().get();
+    }
 
     event.setNameTag(
       Component.text(prefix.replaceAll("&([0-9a-fA-FlmokrMOKR])", "§$1")).append(event.nameTag()));
