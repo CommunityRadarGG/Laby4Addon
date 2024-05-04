@@ -20,6 +20,13 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+
+/**
+ * Dear Labymod Team,
+ * In this class, the user's filesystem is accessed, and potential data is stored or deleted. It is necessary to
+ * store the local lists that the user creates or imports and load them back on restart.
+ * Additionally, servers are accessed to load public lists or to load UUIDs for players.
+ */
 public class ListManger {
 
   private final List<ListItem> lists;

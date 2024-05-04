@@ -47,12 +47,7 @@ public class RadarListShowSubCommand extends SubCommand {
       }
       if (names.length() >= 4)
         names.replace(names.length() - 4, names.length(),  "");
-
       sb.append(names);
-        //.append(String.valueOf(list.getPlayerMap().keySet())
-        //.replace("[", "[§6")
-        //.replace("]", "§7]")
-        //.replaceAll(",","§7,§6"));
 
       this.displayMessage(Component.text(sb.toString()));
       return true;

@@ -11,8 +11,6 @@ import net.labymod.api.client.network.server.ServerData;
 import net.labymod.api.util.I18n;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

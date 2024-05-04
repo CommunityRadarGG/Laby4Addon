@@ -20,6 +20,12 @@ public class RadarHelpSubCommand extends SubCommand {
       return false;
 
     StringBuilder sb = new StringBuilder();
+    /**
+     * Dear Labymod-Team,
+     * I didn't use internationalization because the addon only works on GrieferGames, which is a
+     * fully german server where everyone speaks german. Therefore, I didn't find it necessary to
+     * translate the output into English.
+     */
     sb.append("§8§l§m--------- §8[ §cRadar-Hilfe §8] §8§l§m---------§r\n");
     sb.append(
       "§7Custom listen:\n" +

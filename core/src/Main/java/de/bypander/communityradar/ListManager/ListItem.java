@@ -11,6 +11,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * Dear Labymod Team,
+ * In this class, a server is being accessed to resolve a player name to a given UUID. This is necessary to update the locally stored lists on startup.
+ */
 public class ListItem {
   private final String namespace;
   private final String url;
@@ -178,7 +182,7 @@ public class ListItem {
       }
       saveList();
     } catch (Exception e) {
-      System.out.println("Failed to update List " + getNamespace() +  ". " + e.toString());
+      System.out.println("Failed to update List " + getNamespace() + ". " + e.toString());
     }
   }
 
