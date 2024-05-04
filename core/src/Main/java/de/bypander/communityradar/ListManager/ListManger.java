@@ -52,7 +52,7 @@ public class ListManger {
   public String getPrefix(String name) {
     for (ListItem listItem : lists) {
       if (listItem.inList(name))
-        return listItem.getPrefix();
+        return listItem.getPrefix() + " ";
     }
     return "";
   }
@@ -104,9 +104,8 @@ public class ListManger {
       if (listItem.getNamespace().equals(namespace.toLowerCase())) {
         if (listItem.getListType() != ListType.PRIVATE)
           return false;
-        List<String> list = new ArrayList<>();
-        list.add(new Date().toString());
-        new Thread(() -> listItem.addPlayer(new Player(name, notice, list, getUUID(name)))).start();
+        Date date = new Date();
+        new Thread(() -> listItem.addPlayer(new Player(name, notice, getUUID(name), date, date , -1))).start();
         return true;
       }
     }
@@ -137,7 +136,6 @@ public class ListManger {
 
   /**
    * Used to save a ListItem local, so that it gets reloaded on restart.
-   *
    * @param listItem ListItem, that should be locally saved.
    */
   public void saveList(ListItem listItem) {
@@ -165,7 +163,7 @@ public class ListManger {
     for (String s : getNamespaces()) {
       if (s.equals(namespace.toLowerCase())) return false;
     }
-    lists.add(new ListItem(namespace, prefix, folderurl + namespace + ".json", ListType.PRIVATE));
+    lists.add(0, new ListItem(namespace, prefix, folderurl + namespace + ".json", ListType.PRIVATE));
     new Thread(() -> saveList(getListItem(namespace))).start();
     return true;
   }
@@ -193,6 +191,8 @@ public class ListManger {
   private void addList(ListItem listItem) {
     if (listItem == null) return;
     lists.add(listItem);
+    if (listItem.getListType() == ListType.PRIVATE)
+      new Thread(listItem::updateNames).start();
   }
 
   /**
@@ -255,10 +255,9 @@ public class ListManger {
       return null;
     Gson gson = new Gson();
     try {
-      System.out.println("Loaded list from Path: " + fileurl.replace("%20", " "));
       FileReader reader = new FileReader(fileurl.replace("%20", " "));
-      return gson.fromJson(reader, new TypeToken<ListItem>() {
-      }.getType());
+      System.out.println("Loaded list from Path: " + fileurl.replace("%20", " "));
+      return gson.fromJson(reader, new TypeToken<ListItem>() {}.getType());
     } catch (IOException | IllegalStateException e) {
       e.printStackTrace();
     }

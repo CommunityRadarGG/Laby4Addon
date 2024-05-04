@@ -1,7 +1,9 @@
 package de.bypander.communityradar.commands.radar.help;
 
+import net.labymod.api.Laby;
 import net.labymod.api.client.chat.command.SubCommand;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.client.network.server.ServerData;
 
 public class RadarHelpSubCommand extends SubCommand {
 
@@ -11,8 +13,14 @@ public class RadarHelpSubCommand extends SubCommand {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
+    ServerData data = Laby.references().serverController().getCurrentServerData();
+    if (data == null)
+      return false;
+    if (!data.address().getHost().toLowerCase().contains("griefergames"))
+      return false;
+
     StringBuilder sb = new StringBuilder();
-    sb.append("§8§l§n--------- §cRadar-Hilfe §8§l§n---------§r\n");
+    sb.append("§8§l§m--------- §8[ §cRadar-Hilfe §8] §8§l§m---------§r\n");
     sb.append(
       "§7Custom listen:\n" +
         "§c/radar listen §7--> §6Zeigt einem alle Listen an.\n" +
@@ -28,7 +36,7 @@ public class RadarHelpSubCommand extends SubCommand {
         "§7Spieler und Listen:\n" +
         "§c/radar player add §e<Liste> <Name> <Notizen...> §7--> §6Fügt einen Spieler auf eine Liste hinzu.\n" +
         "§c/radar player remove §e<Name> §7--> §6entfernt einen Spieler von einer Liste.");
-    sb.append("\n§8§l§n--------- §cRadar-Hilfe §8§l§n---------§r");
+    sb.append("\n§8§l§m--------- §8[ §cRadar-Hilfe §8] §8§l§m---------§r");
 
     this.displayMessage(Component.text(sb.toString()));
     return true;

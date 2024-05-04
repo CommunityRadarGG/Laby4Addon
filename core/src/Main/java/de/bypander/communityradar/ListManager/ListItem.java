@@ -1,6 +1,7 @@
 package de.bypander.communityradar.ListManager;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import org.jetbrains.annotations.Nullable;
 
@@ -8,8 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class ListItem {
   private final String namespace;
@@ -83,9 +83,11 @@ public class ListItem {
    * @param prefix New prefix for the list.
    * @return Sets the prefix of a list.
    */
-  public void setPrefix(String prefix) {
+  public boolean setPrefix(String prefix) {
+    if (listType != ListType.PRIVATE) return false;
     this.prefix = prefix;
     saveList();
+    return true;
   }
 
   /**
@@ -132,12 +134,13 @@ public class ListItem {
   /**
    * Downloads a Public list.
    */
-  private void loadWebList() {
+  private void loadPublicList() {
     Gson gson = new Gson();
     try {
       URL url = new URL(this.url);
       BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-      List<Player> list = gson.fromJson(reader, new TypeToken<List<Player>>() {}.getType());
+      List<Player> list = gson.fromJson(reader, new TypeToken<List<Player>>() {
+      }.getType());
       list.forEach(this::loadPlayer);
       reader.close();
     } catch (IOException e) {
@@ -146,10 +149,65 @@ public class ListItem {
   }
 
   /**
+   * Checks all player names in the list and updates them if needed.
+   */
+  public void updateNames() {
+    try {
+      List<Map.Entry<String, String>> entryList = new ArrayList<>();
+      for (Map.Entry<String, Player> entry : playerMap.entrySet()) {
+        Player p = entry.getValue();
+        if (p.name().startsWith("!"))
+          continue;
+
+        String newName = "";
+        newName = getNameFromUUID(p.uuid());
+
+        if (!newName.isEmpty() && !p.name().equals(newName)) {
+          entryList.add(Map.entry(entry.getKey(), newName));
+        }
+      }
+      for (Map.Entry<String, String> entry : entryList) {
+        String key = entry.getKey();
+        String newName = entry.getValue();
+        Player p = playerMap.get(key);
+        playerMap.remove(key);
+        assert p != null;
+        p.setName(newName);
+        p.setEntryUpdatedAt(new Date());
+        playerMap.put(newName.toLowerCase(), p);
+      }
+      saveList();
+    } catch (Exception e) {
+      System.out.println("Failed to update List " + getNamespace() +  ". " + e.toString());
+    }
+  }
+
+  /**
+   * @param uuid The uuid of the player, the name should be returned
+   * @return Empty String, if no matching name is found. Or the matching name to the uuid.
+   */
+  private String getNameFromUUID(String uuid) {
+    try {
+      BufferedReader reader = new BufferedReader(new InputStreamReader(new URL("https://api.minetools.eu/uuid/" + uuid).openStream()));
+      JsonObject json = new Gson().fromJson(reader, JsonObject.class);
+
+      if (json == null) throw new Exception("No response for uuid: " + uuid);
+      if (!json.has("name") || !json.has("status") || !json.get("status").getAsString().equals("OK"))
+        throw new Exception("Invalid response: " + json);
+
+      return json.get("name").getAsString();
+    } catch (Exception e) {
+      System.out.println("Could not get name from minetools api: " + e);
+    }
+    return "";
+  }
+
+  /**
    * If the list is a public list, the list gets loaded from the api.
+   * If it is a private list, all player names get updated with the uuid.
    */
   public void load() {
     if (listType == ListType.PUBLIC)
-      loadWebList();
+      loadPublicList();
   }
 }

@@ -42,7 +42,7 @@
     },
     "command": {
       "missingargument": "§cNot enough arguments. Check /radar help for syntax.",
-      "listen": "Lists:",
+      "listen": "Lists:§6",
       "list": {
         "add": {
           "success": "§aList got created!",
@@ -68,7 +68,8 @@
           "found": "Player found in list:",
           "name" : "Name:",
           "notice" : "Notice:",
-          "dates" : "Dates:",
+          "dates" : "Added:",
+          "expires": "Entry expires: {days} days",
           "prefix" : "Prefix:"
         },
         "failed": "§cDidn´t found the given player on any list."

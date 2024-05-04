@@ -5,12 +5,15 @@ import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.client.component.event.ClickEvent;
+import net.labymod.api.client.network.server.ServerData;
+import net.labymod.api.configuration.loader.property.ConfigProperty;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import de.bypander.communityradar.CommunityRadar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +32,12 @@ public class MessageReceiveListener {
 
   @Subscribe
   public void onMessage(ChatReceiveEvent event) {
+    ServerData data = Laby.references().serverController().getCurrentServerData();
+    if (data == null)
+      return;
+    if (!data.address().getHost().toLowerCase().contains("griefergames"))
+      return;
+
     if (!addon.configuration().getMarkInChat().get())
       return;
 
@@ -43,17 +52,17 @@ public class MessageReceiveListener {
 
 
     String prefix = manager.getPrefix(matcher.group(2).trim());
-    if (prefix.equals("§scammer")) {
+    if (prefix.trim().equals("§scammer")) {
       if (!addon.configuration().getScammerSubConfig().getEnabled().get())
         return;
-      prefix = addon.configuration().getScammerSubConfig().getPrefix().get();
     }
 
-    if (prefix.equals("§trusted")) {
+    if (prefix.trim().equals("§trusted")) {
       if (!addon.configuration().getTrustedMMSubConfig().getEnabled().get())
         return;
-      prefix = addon.configuration().getTrustedMMSubConfig().getPrefix().get();
     }
+
+    prefix = CommunityRadar.prefix(prefix);
 
 
     int index = 0;
@@ -71,7 +80,7 @@ public class MessageReceiveListener {
     }
     List<Component> childs = event.chatMessage().component().getChildren();
     ArrayList<Component> arraylist = new ArrayList<>(childs);
-    arraylist.add(index, Component.text(prefix.replaceAll("&([0-9a-fA-FlmokrMOKR])", "§$1")).clickEvent(ClickEvent.changePage("")));
+    arraylist.add(index, Component.text(prefix.replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1")).clickEvent(ClickEvent.changePage("")));
     event.setMessage(event.message().setChildren(arraylist));
   }
 

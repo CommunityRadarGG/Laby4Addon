@@ -29,20 +29,20 @@
           "description": "Prefix, mit welchem TrustedMMs markiert werden."
         }
       },
-      "openDiscord" : {
-        "text" : "Öffne Invitelink",
-        "name" : "Community Discord",
-        "description" : "Invitelink zum offiziellen Communitydiscord."
+      "openDiscord": {
+        "text": "Öffne Invitelink",
+        "name": "Community Discord",
+        "description": "Invitelink zum offiziellen Communitydiscord."
       },
-      "openGitHub" : {
-        "text" : "Öffne Github Repository",
-        "name" : "Github Repository",
-        "description" : "Link zum offiziellen Github Repository."
+      "openGitHub": {
+        "text": "Öffne Github Repository",
+        "name": "Github Repository",
+        "description": "Link zum offiziellen Github Repository."
       }
     },
     "command": {
       "missingargument": "§cNicht genug Argumente. Gib /radar für die korrekte Syntax ein.",
-      "listen": "Listen:",
+      "listen": "§7Listen:§6",
       "list": {
         "add": {
           "success": "§aListe wurde erstellt!",
@@ -63,26 +63,27 @@
       },
       "check": {
         "everyone": "§7Online Spieler in einer Liste:",
-        "nopersoninlist" : " §cEs ist kein Spieler online, welcher in einer deiner Listen ist.",
+        "nopersoninlist": " §cEs ist kein Spieler online, welcher in einer deiner Listen ist.",
         "singleplayer": {
           "found": "Spieler in Listen gefunden:",
-          "name" : "Name:",
-          "notice" : "Notiz:",
-          "dates" : "Daten:",
-          "prefix" : "Prefix:"
+          "name": "Name:",
+          "notice": "Notiz:",
+          "dates": "Hinzugefügt:",
+          "expires": "Eintrag entfällt: {days} Tage",
+          "prefix": "Prefix:"
         },
         "failed": "§cDer angegebene Spieler wurde auf keiner Liste gefunden."
       },
-      "player" : {
-        "add" : {
-          "success" : "§aSpieler wurde zur Liste hinzugefügt.",
-          "failed" : "§cSpieler konnte nicht hinzugefügt werden. Hast du eine private Liste verwendet?",
-          "inlist" : "Der Spieler ist bereits in einer Liste."
+      "player": {
+        "add": {
+          "success": "§aSpieler wurde zur Liste hinzugefügt.",
+          "failed": "§cSpieler konnte nicht hinzugefügt werden. Hast du eine private Liste verwendet?",
+          "inlist": "Der Spieler ist bereits in einer Liste."
         },
-        "remove" : {
-          "success" : "§aSpieler wurde aus der Liste entfernt",
-          "failed" : "§cSpieler konnte nicht entfernt werden. Hast du eine private Liste verwendet?",
-          "notinlist" : "Der Spieler ist in keiner Liste."
+        "remove": {
+          "success": "§aSpieler wurde aus der Liste entfernt",
+          "failed": "§cSpieler konnte nicht entfernt werden. Hast du eine private Liste verwendet?",
+          "notinlist": "Der Spieler ist in keiner Liste."
         }
       }
     }

@@ -1,5 +1,6 @@
 package de.bypander.communityradar.config;
 
+import net.labymod.api.Laby;
 import net.labymod.api.addon.AddonConfig;
 import net.labymod.api.client.gui.screen.widget.widgets.input.ButtonWidget.ButtonSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
@@ -9,6 +10,8 @@ import net.labymod.api.configuration.loader.annotation.SpriteTexture;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import net.labymod.api.models.OperatingSystem;
 import net.labymod.api.util.MethodOrder;
+
+import java.util.Objects;
 
 /**
  * Parts of the Icons are from the GrieferGames Addon: <a href="https://github.com/cosmohdx/LabyMod4-GrieferGames-Addon/">Addon</a>

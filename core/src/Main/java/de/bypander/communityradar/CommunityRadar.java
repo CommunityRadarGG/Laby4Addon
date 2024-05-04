@@ -5,7 +5,6 @@ import de.bypander.communityradar.commands.radar.RadarCommand;
 import de.bypander.communityradar.config.CommunityRadarConfig;
 import de.bypander.communityradar.listener.NameTagListener;
 import net.labymod.api.Constants;
-import net.labymod.api.Laby;
 import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.models.addon.annotation.AddonMain;
 import de.bypander.communityradar.listener.MessageReceiveListener;
@@ -15,11 +14,11 @@ public class CommunityRadar extends LabyAddon<CommunityRadarConfig> {
   private static CommunityRadar addon;
   @Override
   protected void enable() {
-    this.addon = this;
+    addon = this;
     this.registerSettingCategory();
     ListManger manger = new ListManger(Constants.Files.CONFIGS + "/communityradar/");
-    manger.addPublicList("communityradarscammer", "§scammer", "https://communityradargg.github.io/TestPage/scammer.json");
-    manger.addPublicList("verbvllerttrusted", "§trusted", "https://communityradargg.github.io/TestPage/trustedMM.json");
+    manger.addPublicList("communityradarscammer", "§scammer", "https://lists.community-radar.de/versions/v1/scammer.json");
+    manger.addPublicList("verbvllerttrusted", "§trusted", "https://lists.community-radar.de/versions/v1/trusted.json");
 
     this.registerListener(new MessageReceiveListener(this));
     this.registerListener(new NameTagListener(this));
@@ -30,6 +29,16 @@ public class CommunityRadar extends LabyAddon<CommunityRadarConfig> {
 
   public static CommunityRadar get() {
     return addon;
+  }
+
+  public static String prefix(String prefix) {
+    if (prefix.trim().equals("§scammer"))
+      return CommunityRadar.get().configuration().getScammerSubConfig().getPrefix().get() + " ";
+
+    if (prefix.trim().equals("§trusted"))
+      return  CommunityRadar.get().configuration().getTrustedMMSubConfig().getPrefix().get() + " ";
+
+    return prefix;
   }
 
   @Override

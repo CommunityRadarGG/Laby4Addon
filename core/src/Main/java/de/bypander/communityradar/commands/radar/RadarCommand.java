@@ -8,6 +8,7 @@ import de.bypander.communityradar.commands.radar.player.RadarPlayerSubCommand;
 import net.labymod.api.Laby;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.chat.command.SubCommand;
+import net.labymod.api.client.network.server.ServerData;
 
 public class RadarCommand extends Command {
 
@@ -18,16 +19,24 @@ public class RadarCommand extends Command {
     this.withSubCommand(new RadarListSubCommand());
     this.withSubCommand(new RadarCheckSubCommand());
     this.withSubCommand(new RadarPlayerSubCommand());
+    //this.complete(new String[]{"help","check"});
   }
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
+
+    ServerData data = Laby.references().serverController().getCurrentServerData();
+    if (data == null)
+      return false;
+    if (!data.address().getHost().toLowerCase().contains("griefergames"))
+      return false;
+
     if (arguments.length == 0) {
       Laby.references().commandService().fireCommand("radar", new String[]{"help"});
       return true;
     }
 
-    Boolean validSubPrefix = false;
+    boolean validSubPrefix = false;
     for (SubCommand s : getSubCommands()) {
       if (s.getPrefix().equalsIgnoreCase(arguments[0])) {
         validSubPrefix = true;
