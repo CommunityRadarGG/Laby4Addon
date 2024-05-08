@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
     api(project(":api"))
+    maven(mavenCentral(), "com.google.code.gson:gson:2.8.8")
 }
 
 labyModProcessor {
