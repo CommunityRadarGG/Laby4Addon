@@ -1,5 +1,6 @@
 package de.bypander.communityradar.commands.radar;
 
+import de.bypander.communityradar.CommunityRadar;
 import de.bypander.communityradar.commands.radar.check.RadarCheckSubCommand;
 import de.bypander.communityradar.commands.radar.help.RadarHelpSubCommand;
 import de.bypander.communityradar.commands.radar.list.RadarListSubCommand;
@@ -12,6 +13,7 @@ import net.labymod.api.client.network.server.ServerData;
 
 public class RadarCommand extends Command {
 
+
   public RadarCommand() {
     super("radar", "communityradar", "scammer", "trustedmm", "mm");
     this.withSubCommand(new RadarHelpSubCommand());
@@ -19,16 +21,12 @@ public class RadarCommand extends Command {
     this.withSubCommand(new RadarListSubCommand());
     this.withSubCommand(new RadarCheckSubCommand());
     this.withSubCommand(new RadarPlayerSubCommand());
-    //this.complete(new String[]{"help","check"});
   }
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
 
-    ServerData data = Laby.references().serverController().getCurrentServerData();
-    if (data == null)
-      return false;
-    if (!data.address().getHost().toLowerCase().contains("griefergames"))
+    if (!CommunityRadar.get().onGriefergames())
       return false;
 
     if (arguments.length == 0) {

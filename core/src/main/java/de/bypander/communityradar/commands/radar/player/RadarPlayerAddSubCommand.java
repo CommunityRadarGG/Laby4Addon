@@ -17,10 +17,7 @@ public class RadarPlayerAddSubCommand extends SubCommand {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
-    ServerData data = Laby.references().serverController().getCurrentServerData();
-    if (data == null)
-      return false;
-    if (!data.address().getHost().toLowerCase().contains("griefergames"))
+    if (!CommunityRadar.get().onGriefergames())
       return false;
 
     StringBuilder sb = new StringBuilder("§8[§cCommunityRadar§8]§r ");

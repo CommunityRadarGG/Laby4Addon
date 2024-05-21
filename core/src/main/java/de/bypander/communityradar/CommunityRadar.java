@@ -12,6 +12,9 @@ import de.bypander.communityradar.listener.MessageReceiveListener;
 @AddonMain
 public class CommunityRadar extends LabyAddon<CommunityRadarConfig> {
   private static CommunityRadar addon;
+
+  private Boolean onGriefergames = false;
+
   @Override
   protected void enable() {
     addon = this;
@@ -39,6 +42,14 @@ public class CommunityRadar extends LabyAddon<CommunityRadarConfig> {
       return  CommunityRadar.get().configuration().getTrustedMMSubConfig().getPrefix().get() + " ";
 
     return prefix;
+  }
+
+  public Boolean onGriefergames() {
+    return onGriefergames;
+  }
+
+  public void setOnGriefergames(Boolean onGriefergames) {
+    this.onGriefergames = onGriefergames;
   }
 
   @Override

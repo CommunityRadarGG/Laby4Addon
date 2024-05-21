@@ -23,11 +23,7 @@ public class NameTagListener {
 
   @Subscribe(100)
   public void onRender(PlayerNameTagRenderEvent event) {
-
-    ServerData data = Laby.references().serverController().getCurrentServerData();
-    if (data == null)
-      return;
-    if (!data.address().getHost().toLowerCase().contains("griefergames"))
+    if (!CommunityRadar.get().onGriefergames())
       return;
 
     if (!addon.configuration().getMarkOverHead().get())

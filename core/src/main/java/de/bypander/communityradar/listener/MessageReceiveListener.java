@@ -32,10 +32,7 @@ public class MessageReceiveListener {
 
   @Subscribe
   public void onMessage(ChatReceiveEvent event) {
-    ServerData data = Laby.references().serverController().getCurrentServerData();
-    if (data == null)
-      return;
-    if (!data.address().getHost().toLowerCase().contains("griefergames"))
+    if (!CommunityRadar.get().onGriefergames())
       return;
 
     if (!addon.configuration().getMarkInChat().get())
