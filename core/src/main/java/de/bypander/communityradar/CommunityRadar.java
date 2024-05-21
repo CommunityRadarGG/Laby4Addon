@@ -4,6 +4,8 @@ import de.bypander.communityradar.ListManager.ListManger;
 import de.bypander.communityradar.commands.radar.RadarCommand;
 import de.bypander.communityradar.config.CommunityRadarConfig;
 import de.bypander.communityradar.listener.NameTagListener;
+import de.bypander.communityradar.listener.ServerJoinListener;
+import de.bypander.communityradar.listener.ServerLeaveListener;
 import net.labymod.api.Constants;
 import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.models.addon.annotation.AddonMain;
@@ -25,6 +27,8 @@ public class CommunityRadar extends LabyAddon<CommunityRadarConfig> {
 
     this.registerListener(new MessageReceiveListener(this));
     this.registerListener(new NameTagListener(this));
+    this.registerListener(new ServerJoinListener(this));
+    this.registerListener(new ServerLeaveListener(this));
     this.registerCommand(new RadarCommand());
 
     this.logger().info("Enabled CommunityRadar");
