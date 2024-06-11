@@ -150,7 +150,7 @@ public class ListManger {
   public void saveList(ListItem listItem) {
     if (listItem.getListType() != ListType.PRIVATE)
       return;
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeAdapter()).setPrettyPrinting().create();
     String json = gson.toJson(listItem);
     try (FileWriter writer = new FileWriter(folderurl + listItem.getNamespace() + ".json")) {
       writer.write(json);
