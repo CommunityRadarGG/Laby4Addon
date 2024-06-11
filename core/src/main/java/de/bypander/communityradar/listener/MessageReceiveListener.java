@@ -59,7 +59,7 @@ public class MessageReceiveListener {
         return;
     }
 
-    prefix = CommunityRadar.prefix(prefix);
+    prefix = CommunityRadar.get().prefix(prefix);
 
 
     int index = 0;

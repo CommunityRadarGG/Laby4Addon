@@ -18,20 +18,21 @@ public class RadarListShowSubCommand extends SubCommand {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
-    if (!CommunityRadar.get().onGriefergames())
+    CommunityRadar addon = CommunityRadar.get();
+    if (!addon.onGriefergames())
       return false;
 
-    StringBuilder sb = new StringBuilder("§8[§cCommunityRadar§8]§r ");
+    StringBuilder sb = new StringBuilder();
     if (arguments.length < 1) {
       sb.append(I18n.translate("communityradar.command.missingargument"));
-      this.displayMessage(Component.text(sb.toString()));
+      this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.toString())));
       return true;
     }
 
     ListItem list = ListManger.get().getListItem(arguments[0]);
     if (list != null) {
       String p = list.getPrefix();
-      p = CommunityRadar.prefix(p);
+      p = addon.prefix(p);
 
       sb.append(I18n.translate("communityradar.command.list.show.success")
         .replace("{list}", arguments[0])
@@ -46,12 +47,12 @@ public class RadarListShowSubCommand extends SubCommand {
         names.replace(names.length() - 4, names.length(),  "");
       sb.append(names);
 
-      this.displayMessage(Component.text(sb.toString()));
+      this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.toString())));
       return true;
     }
 
     sb.append(I18n.translate("communityradar.command.list.show.failed"));
-    this.displayMessage(Component.text(sb.toString()));
+    this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.toString())));
     return true;
   }
 }

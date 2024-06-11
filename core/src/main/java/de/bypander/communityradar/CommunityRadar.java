@@ -8,6 +8,8 @@ import de.bypander.communityradar.listener.ServerJoinListener;
 import de.bypander.communityradar.listener.ServerLeaveListener;
 import net.labymod.api.Constants;
 import net.labymod.api.addon.LabyAddon;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.models.addon.annotation.AddonMain;
 import de.bypander.communityradar.listener.MessageReceiveListener;
 
@@ -16,6 +18,8 @@ public class CommunityRadar extends LabyAddon<CommunityRadarConfig> {
   private static CommunityRadar addon;
 
   private Boolean onGriefergames = false;
+
+  private final TextComponent addonPrefix = Component.text("§8[§cCommunityRadar§8]§r ");
 
   @Override
   protected void enable() {
@@ -38,7 +42,7 @@ public class CommunityRadar extends LabyAddon<CommunityRadarConfig> {
     return addon;
   }
 
-  public static String prefix(String prefix) {
+  public String prefix(String prefix) {
     if (prefix.trim().equals("§scammer"))
       return CommunityRadar.get().configuration().getScammerSubConfig().getPrefix().get() + " ";
 
@@ -54,6 +58,10 @@ public class CommunityRadar extends LabyAddon<CommunityRadarConfig> {
 
   public void setOnGriefergames(Boolean onGriefergames) {
     this.onGriefergames = onGriefergames;
+  }
+
+  public TextComponent getAddonPrefix() {
+    return this.addonPrefix.copy();
   }
 
   @Override

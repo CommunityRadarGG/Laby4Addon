@@ -20,16 +20,16 @@ public class RadarPlayerAddSubCommand extends SubCommand {
     if (!CommunityRadar.get().onGriefergames())
       return false;
 
-    StringBuilder sb = new StringBuilder("§8[§cCommunityRadar§8]§r ");
+    StringBuilder sb = new StringBuilder();
     if (arguments.length < 2) {
       sb.append(I18n.translate("communityradar.command.missingargument"));
-      this.displayMessage(Component.text(sb.toString()));
+      this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.toString())));
       return true;
     }
 
     if (ListManger.get().inList(arguments[1])) {
       sb.append("§c").append(I18n.translate("communityradar.command.player.add.inlist"));
-      this.displayMessage(Component.text(sb.toString()));
+      this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.toString())));
       return true;
     }
 
@@ -41,12 +41,12 @@ public class RadarPlayerAddSubCommand extends SubCommand {
 
     if (ListManger.get().addPlayer(arguments[0], arguments[1], notice.toString())) {
       sb.append(I18n.translate("communityradar.command.player.add.success"));
-      this.displayMessage(Component.text(sb.toString()));
+      this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.toString())));
       return true;
     }
 
     sb.append(I18n.translate("communityradar.command.player.add.failed"));
-    this.displayMessage(Component.text(sb.toString()));
+    this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.toString())));
     return true;
   }
 }

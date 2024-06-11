@@ -46,7 +46,7 @@ public class NameTagListener {
       if (!addon.configuration().getTrustedMMSubConfig().getEnabled().get())
         return;
     }
-    prefix = CommunityRadar.prefix(prefix);
+    prefix = CommunityRadar.get().prefix(prefix);
 
     event.setNameTag(
       Component.text(prefix.replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1")).append(event.nameTag()));

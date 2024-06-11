@@ -19,15 +19,14 @@ public class RadarListenSubCommand extends SubCommand {
     if (!CommunityRadar.get().onGriefergames())
       return false;
 
-    StringBuilder sb = new StringBuilder("§8[§cCommunityRadar§8]§r ");
+    StringBuilder sb = new StringBuilder();
     sb.append("§7").append(I18n.translate("communityradar.command.listen")).append(" ");
 
     ListManger manager = ListManger.get();
     for (String s : manager.getNamespaces()) {
       sb.append(s).append("§7, §6");
     }
-
-    this.displayMessage(Component.text(sb.substring(0, sb.length() - 4)));
+    this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.substring(0, sb.length() - 4))));
     return true;
   }
 }

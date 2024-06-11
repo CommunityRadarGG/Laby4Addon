@@ -20,10 +20,10 @@ public class RadarListPrefixSubCommand extends SubCommand {
     if (!CommunityRadar.get().onGriefergames())
       return false;
 
-    StringBuilder sb = new StringBuilder("§8[§cCommunityRadar§8]§r ");
+    StringBuilder sb = new StringBuilder();
     if (arguments.length < 2) {
       sb.append(I18n.translate("communityradar.command.missingargument"));
-      this.displayMessage(Component.text(sb.toString()));
+      this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.toString())));
       return true;
     }
 
@@ -32,13 +32,13 @@ public class RadarListPrefixSubCommand extends SubCommand {
       boolean b = list.setPrefix(arguments[1]);
       if (b) {
         sb.append(I18n.translate("communityradar.command.list.prefix.success").replace("{prefix}", arguments[1]));
-        this.displayMessage(Component.text(sb.toString()));
+        this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.toString())));
         return true;
       }
     }
 
     sb.append(I18n.translate("communityradar.command.list.prefix.failed"));
-    this.displayMessage(Component.text(sb.toString()));
+    this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.toString())));
     return true;
   }
 }
