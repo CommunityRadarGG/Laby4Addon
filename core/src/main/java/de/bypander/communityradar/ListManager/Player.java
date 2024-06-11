@@ -1,5 +1,6 @@
 package de.bypander.communityradar.ListManager;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -7,11 +8,11 @@ public class Player {
   private String name;
   private final String cause;
   private final String uuid;
-  private final Date entryCreatedAt;
-  private Date entryUpdatedAt;
+  private final LocalDateTime entryCreatedAt;
+  private LocalDateTime entryUpdatedAt;
   private final int expiryDays;
 
-  public Player(String name, String cause, String uuid, Date entryCreatedAt, Date entryUpdatedAt, int expiryDays) {
+  public Player(String name, String cause, String uuid, LocalDateTime entryCreatedAt, LocalDateTime entryUpdatedAt, int expiryDays) {
     this.name = name;
     this.cause = cause;
     this.uuid = uuid;
@@ -20,11 +21,11 @@ public class Player {
     this.expiryDays = expiryDays;
   }
 
-  public Date entryCreatedAt() {
+  public LocalDateTime entryCreatedAt() {
     return entryCreatedAt;
   }
 
-  public Date entryUpdatedAt() {
+  public LocalDateTime entryUpdatedAt() {
     return entryUpdatedAt;
   }
 
@@ -32,7 +33,7 @@ public class Player {
     return expiryDays;
   }
 
-  public void setEntryUpdatedAt(Date entryUpdatedAt) {
+  public void setEntryUpdatedAt(LocalDateTime entryUpdatedAt) {
     this.entryUpdatedAt = entryUpdatedAt;
   }
 

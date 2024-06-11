@@ -1,14 +1,17 @@
 package de.bypander.communityradar.ListManager;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import de.bypander.communityradar.listener.GsonLocalDateTimeAdapter;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -139,7 +142,7 @@ public class ListItem {
    * Downloads a Public list.
    */
   private void loadPublicList() {
-    Gson gson = new Gson();
+    Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeAdapter()).create();
     try {
       URL url = new URL(this.url);
       BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -177,7 +180,7 @@ public class ListItem {
         playerMap.remove(key);
         assert p != null;
         p.setName(newName);
-        p.setEntryUpdatedAt(new Date());
+        p.setEntryUpdatedAt(LocalDateTime.now());
         playerMap.put(newName.toLowerCase(), p);
       }
       saveList();

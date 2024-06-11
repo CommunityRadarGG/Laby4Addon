@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import de.bypander.communityradar.listener.GsonLocalDateTimeAdapter;
 import net.labymod.api.Laby;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -14,6 +15,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -111,7 +113,7 @@ public class ListManger {
       if (listItem.getNamespace().equals(namespace.toLowerCase())) {
         if (listItem.getListType() != ListType.PRIVATE)
           return false;
-        Date date = new Date();
+        LocalDateTime date = LocalDateTime.now();
         new Thread(() -> listItem.addPlayer(new Player(name, notice, getUUID(name), date, date , -1))).start();
         return true;
       }
@@ -260,7 +262,7 @@ public class ListManger {
   private ListItem loadListItemFromFile(String fileurl) {
     if (fileurl.endsWith("settings.json"))
       return null;
-    Gson gson = new Gson();
+    Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeAdapter()).create();
     try {
       FileReader reader = new FileReader(fileurl.replace("%20", " "));
       System.out.println("Loaded list from Path: " + fileurl.replace("%20", " "));
