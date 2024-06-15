@@ -28,7 +28,7 @@ public class RadarPlayerAddSubCommand extends SubCommand {
     }
 
     if (ListManger.get().inList(arguments[1])) {
-      sb.append("§c").append(I18n.translate("communityradar.command.player.add.inlist"));
+      sb.append(I18n.translate("communityradar.command.player.add.inlist"));
       this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.toString())));
       return true;
     }

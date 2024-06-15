@@ -12,6 +12,7 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.models.addon.annotation.AddonMain;
 import de.bypander.communityradar.listener.MessageReceiveListener;
+import net.labymod.api.util.I18n;
 
 @AddonMain
 public class CommunityRadar extends LabyAddon<CommunityRadarConfig> {
@@ -19,12 +20,13 @@ public class CommunityRadar extends LabyAddon<CommunityRadarConfig> {
 
   private Boolean onGriefergames = false;
 
-  private final TextComponent addonPrefix = Component.text("§8[§cCommunityRadar§8]§r ");
+  private TextComponent addonPrefix;
 
   @Override
   protected void enable() {
     addon = this;
     this.registerSettingCategory();
+    addonPrefix = Component.text(I18n.translate("communityradar.custom.prefix"));
     ListManger manger = new ListManger(Constants.Files.CONFIGS + "/communityradar/");
     TextComponent scammer = Component.text(configuration().getScammerSubConfig().getPrefix().get().replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1"));
     TextComponent trust = Component.text(configuration().getTrustedMMSubConfig().getPrefix().get().replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1"));

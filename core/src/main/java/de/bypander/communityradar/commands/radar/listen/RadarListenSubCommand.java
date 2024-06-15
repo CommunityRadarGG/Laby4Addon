@@ -20,13 +20,13 @@ public class RadarListenSubCommand extends SubCommand {
       return false;
 
     StringBuilder sb = new StringBuilder();
-    sb.append("§7").append(I18n.translate("communityradar.command.listen")).append(" ");
+    sb.append(I18n.translate("communityradar.command.listen.prefix"));
 
     ListManger manager = ListManger.get();
     for (String s : manager.getNamespaces()) {
-      sb.append(s).append("§7, §6");
+      sb.append(I18n.translate("communityradar.command.listen.list").replace("{list}", s));
     }
-    this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.substring(0, sb.length() - 4))));
+    this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.substring(0, sb.length() - 2))));
     return true;
   }
 }

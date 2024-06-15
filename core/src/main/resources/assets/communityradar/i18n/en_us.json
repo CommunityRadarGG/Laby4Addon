@@ -47,7 +47,10 @@
     },
     "command": {
       "missingargument": "§cNot enough arguments. Check /radar help for syntax.",
-      "listen": "Lists:§6",
+      "listen": {
+		"prefix": "§7Listen: ",
+		"list" : "§6{list}§7, "
+	  },
       "help" : {
         "separator": "§8§l§m--------- §8[ §cRadar-Hilfe §8] §8§l§m---------§r",
         "text" : "§7Custom listen:\n§c/radar listen §7--> §6Zeigt einem alle Listen an.\n§c/radar list add §e<Name> <Prefix> §7--> §6Erstellt eine Liste.\n§c/radar list prefix §e<Name> <Prefix> §7--> §6Ändert den Prefix einer Liste.\n§c/radar list delete §e<Name> §7--> §6Löscht eine Liste.\n§c/radar list show §e<Liste> §7--> §6Zeigt einem alle Spieler einer Liste.\n\n§7Checken:\n§c/radar check §e<Name> §7--> §6Checkt einen Spieler, ob er auf irgendeiner Liste ist.\n§c/radar check * §7--> §6Checkt den ganzen CB und gibt die Spieler aus, auf welcher Liste diese sind.\n\n§7Spieler und Listen:\n§c/radar player add §e<Liste> <Name> <Notizen...> §7--> §6Fügt einen Spieler auf eine Liste hinzu.\n§c/radar player remove §e<Name> §7--> §6entfernt einen Spieler von einer Liste."
@@ -62,8 +65,9 @@
           "failed": "§cFailed to delete list. Is the name correct? And is it a private list?"
         },
         "show": {
-          "success": "§7List: §6{list}§7, Prefix: §6{prefix}§7, §7Member:§6",
-          "failed": "§cFailed to show list. Is the name correct?"
+          "success": "§7List: §6{list}§7, Prefix: §6{prefix}§7, §7Member:",
+          "failed": "§cFailed to show list. Is the name correct?",
+		  "name" : "§6{name}§7, "
         },
         "prefix": {
           "success": "§aPrefix got changed to {prefix}.",
@@ -72,14 +76,15 @@
       },
       "check": {
         "everyone": "§7Online player in a list:",
+		"player" : "§c{name}§7: §r{prefix}",
         "nopersoninlist" : " §cThere is no person online, that is on one of you lists.",
         "singleplayer": {
-          "found": "Player found in list:",
-          "name" : "Name:",
-          "notice" : "Notice:",
-          "dates" : "Added:",
-          "expires": "Entry expires: {days} days",
-          "prefix" : "Prefix:"
+          "found": "§aPlayer found in list:",
+          "name" : "§cName: §7",
+          "notice" : "§cNotice: §7",
+          "dates" : "§cAdded: §7",
+          "expires": "§cEntry expires: §7{days} §cdays",
+          "prefix" : "§cPrefix: §r"
         },
         "failed": "§cDidn´t found the given player on any list."
       },
@@ -87,14 +92,17 @@
         "add" : {
           "success" : "§aPlayer got added to the list.",
           "failed" : "§cCannot add player. Did you use a private list?",
-          "inlist" : "The player is already on a list."
+          "inlist" : "§cThe player is already on a list."
         },
         "remove" : {
           "success" : "§aPlayer got removed from the list.",
           "failed" : "§cCannot remove player. Did you use a private list?",
-          "notinlist" : "The player is not on any list."
+          "notinlist" : "§cThe player is not on any list."
         }
       }
-    }
+    },
+	"custom" : {
+	  "prefix" : "§8[§cCommunityRadar§8]§r "
+	}
   }
 }

@@ -35,7 +35,7 @@ public class RadarCheckSubCommand extends SubCommand {
     }
     ListManger manager = ListManger.get();
     if (arguments[0].equals("*")) {
-      sb.append("§a").append(I18n.translate("communityradar.command.check.everyone"));
+      sb.append(I18n.translate("communityradar.command.check.everyone"));
       for (NetworkPlayerInfo playerInfo : Laby.labyAPI().minecraft().getClientPacketListener().getNetworkPlayerInfos()) {
         if(playerInfo == null) continue;
 
@@ -49,7 +49,7 @@ public class RadarCheckSubCommand extends SubCommand {
           continue;
 
         String pr = manager.getPrefix(name).getText();
-        sb.append("\n§c").append(name).append("§7:§e ").append(pr);
+        sb.append("\n").append(I18n.translate("communityradar.command.check.player").replace("{name}", name).replace("{prefix}", pr));
       }
 
       if (sb.toString().endsWith(I18n.translate("communityradar.command.check.everyone")))
@@ -59,20 +59,20 @@ public class RadarCheckSubCommand extends SubCommand {
 
       Player player = manager.getPlayer(arguments[0]);
       assert player != null;
-      sb.append("§a").append(I18n.translate("communityradar.command.check.singleplayer.found"))
-        .append("\n§c").append(I18n.translate("communityradar.command.check.singleplayer.prefix")).append(" §7").append(p)
-        .append("\n§c").append(I18n.translate("communityradar.command.check.singleplayer.name")).append(" §7").append(player.name())
-        .append("\n§c").append(I18n.translate("communityradar.command.check.singleplayer.notice")).append(" §7").append(player.cause());
+      sb.append(I18n.translate("communityradar.command.check.singleplayer.found"))
+        .append("\n").append(I18n.translate("communityradar.command.check.singleplayer.prefix")).append(p)
+        .append("\n").append(I18n.translate("communityradar.command.check.singleplayer.name")).append(player.name())
+        .append("\n").append(I18n.translate("communityradar.command.check.singleplayer.notice")).append(player.cause());
       LocalDateTime date = player.entryCreatedAt();
       String d = date.getDayOfMonth() + "." + date.getMonthValue() + "." + date.getYear();
-      sb.append("\n§c").append(I18n.translate("communityradar.command.check.singleplayer.dates")).append(" §7").append(d);
+      sb.append("\n").append(I18n.translate("communityradar.command.check.singleplayer.dates")).append(d);
       if (player.expiryDays() != -1)
-        sb.append("\n§c").append(I18n.translate("communityradar.command.check.singleplayer.expires").replace("{days}", "§7" + player.expiryDays() + "§c"));
+        sb.append("\n").append(I18n.translate("communityradar.command.check.singleplayer.expires").replace("{days}", "" + player.expiryDays()));
     } else {
       sb.append(I18n.translate("communityradar.command.check.failed"));
     }
     TextComponent messagePrefix = addon.getAddonPrefix();
-    this.displayMessage(messagePrefix.append(Component.text(sb.toString().replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1"))));
+    this.displayMessage(messagePrefix.append(Component.text(sb.toString())));
     return true;
   }
 

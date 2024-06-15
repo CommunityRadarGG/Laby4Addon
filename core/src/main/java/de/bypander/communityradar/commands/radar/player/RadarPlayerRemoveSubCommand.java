@@ -27,7 +27,7 @@ public class RadarPlayerRemoveSubCommand extends SubCommand {
     }
 
     if (!ListManger.get().inList(arguments[0])) {
-      sb.append("§c").append(I18n.translate("communityradar.command.player.remove.notinlist"));
+      sb.append(I18n.translate("communityradar.command.player.remove.notinlist"));
       this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.toString())));
       return true;
     }

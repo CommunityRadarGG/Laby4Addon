@@ -33,12 +33,12 @@ public class RadarListShowSubCommand extends SubCommand {
 
       sb.append(I18n.translate("communityradar.command.list.show.success")
         .replace("{list}", arguments[0])
-        .replace("{prefix}", p.replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1")))
+        .replace("{prefix}", p))
         .append(" ");
 
       StringBuilder names = new StringBuilder();
       for (Player player : list.getPlayerMap().values()) {
-        names.append("§6").append(player.name()).append("§7, ");
+        names.append(I18n.translate("communityradar.command.list.show.name").replace("{name}", player.name()));
       }
       if (names.length() >= 4)
         names.replace(names.length() - 4, names.length(),  "");
