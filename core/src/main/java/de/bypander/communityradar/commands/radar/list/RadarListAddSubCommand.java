@@ -2,10 +2,8 @@ package de.bypander.communityradar.commands.radar.list;
 
 import de.bypander.communityradar.CommunityRadar;
 import de.bypander.communityradar.ListManager.ListManger;
-import net.labymod.api.Laby;
 import net.labymod.api.client.chat.command.SubCommand;
 import net.labymod.api.client.component.Component;
-import net.labymod.api.client.network.server.ServerData;
 import net.labymod.api.util.I18n;
 
 public class RadarListAddSubCommand extends SubCommand {
@@ -26,7 +24,7 @@ public class RadarListAddSubCommand extends SubCommand {
       return true;
     }
 
-    Boolean success = ListManger.get().addPrivateList(arguments[0], arguments[1]);
+    Boolean success = ListManger.get().addPrivateList(arguments[0], Component.text(arguments[1].replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1")));
     if (success) {
       sb.append(I18n.translate("communityradar.command.list.add.success"));
       this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.toString())));

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import de.bypander.communityradar.listener.GsonLocalDateTimeAdapter;
+import net.labymod.api.client.component.TextComponent;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
@@ -22,10 +22,10 @@ public class ListItem {
   private final String namespace;
   private final String url;
   private final HashMap<String, Player> playerMap;
-  private String prefix;
+  private TextComponent prefix;
   private final ListType listType;
 
-  public ListItem(String namespace, String prefix, String url, ListType listType) {
+  public ListItem(String namespace, TextComponent prefix, String url, ListType listType) {
     this.namespace = namespace.toLowerCase();
     this.prefix = prefix;
     this.url = url;
@@ -61,7 +61,7 @@ public class ListItem {
   /**
    * @return The prefix of the list.
    */
-  public String getPrefix() {
+  public TextComponent getPrefix() {
     return prefix;
   }
 
@@ -90,8 +90,19 @@ public class ListItem {
    * @param prefix New prefix for the list.
    * @return Sets the prefix of a list.
    */
-  public boolean setPrefix(String prefix) {
+  public boolean setPrefix(TextComponent prefix) {
     if (listType != ListType.PRIVATE) return false;
+    this.prefix = prefix;
+    saveList();
+    return true;
+  }
+
+  /**
+   * @param prefix New prefix for the list.
+   * @return Sets the prefix of a list in the configs.
+   */
+  public boolean setPrefixInConfig(TextComponent prefix) {
+    if (listType != ListType.PUBLIC) return false;
     this.prefix = prefix;
     saveList();
     return true;
@@ -142,7 +153,9 @@ public class ListItem {
    * Downloads a Public list.
    */
   private void loadPublicList() {
-    Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeAdapter()).create();
+    Gson gson = new GsonBuilder().registerTypeAdapter(TextComponent.class, new TextComponentAdapter())
+                                 .registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeAdapter())
+                                 .setPrettyPrinting().create();
     try {
       URL url = new URL(this.url);
       BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));

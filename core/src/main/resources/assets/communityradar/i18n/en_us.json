@@ -29,6 +29,11 @@
           "description": "Prefix, that marks trusted MMs."
         }
       },
+      "reloadPrefix" : {
+        "text" : "Reload",
+        "name" : "Reload prefixes",
+        "description" : "Reload prefixes, which can be configured in the settings."
+      },
       "openDiscord" : {
         "text" : "Open invite link",
         "name" : "Community Discord",

@@ -4,10 +4,8 @@ import de.bypander.communityradar.CommunityRadar;
 import de.bypander.communityradar.ListManager.ListItem;
 import de.bypander.communityradar.ListManager.ListManger;
 import de.bypander.communityradar.ListManager.Player;
-import net.labymod.api.Laby;
 import net.labymod.api.client.chat.command.SubCommand;
 import net.labymod.api.client.component.Component;
-import net.labymod.api.client.network.server.ServerData;
 import net.labymod.api.util.I18n;
 
 public class RadarListShowSubCommand extends SubCommand {
@@ -31,8 +29,7 @@ public class RadarListShowSubCommand extends SubCommand {
 
     ListItem list = ListManger.get().getListItem(arguments[0]);
     if (list != null) {
-      String p = list.getPrefix();
-      p = addon.prefix(p);
+      String p = list.getPrefix().getText();
 
       sb.append(I18n.translate("communityradar.command.list.show.success")
         .replace("{list}", arguments[0])

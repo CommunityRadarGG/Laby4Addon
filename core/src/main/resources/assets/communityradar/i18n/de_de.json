@@ -29,6 +29,11 @@
           "description": "Prefix, mit welchem TrustedMMs markiert werden."
         }
       },
+      "reloadPrefix" : {
+        "text" : "Neuladen",
+        "name" : "Reloaded die Prefixe",
+        "description" : "Läd die Prefixe der Listen neu, welche über die Einstellungen eingestellt werden."
+      },
       "openDiscord": {
         "text": "Öffne Invitelink",
         "name": "Community Discord",

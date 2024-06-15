@@ -4,7 +4,7 @@ import de.bypander.communityradar.CommunityRadar;
 import de.bypander.communityradar.ListManager.ListManger;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
-import net.labymod.api.client.network.server.ServerData;
+import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.render.PlayerNameTagRenderEvent;
 
@@ -37,19 +37,9 @@ public class NameTagListener {
     if (!manager.inList(matcher.group(2).trim()))
       return;
 
-    String prefix = manager.getPrefix(matcher.group(2).trim());
-    if (prefix.trim().equals("§scammer")) {
-      if (!addon.configuration().getScammerSubConfig().getEnabled().get())
-        return;
-    }
-    if (prefix.trim().equals("§trusted")) {
-      if (!addon.configuration().getTrustedMMSubConfig().getEnabled().get())
-        return;
-    }
-    prefix = CommunityRadar.get().prefix(prefix);
-
-    event.setNameTag(
-      Component.text(prefix.replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1")).append(event.nameTag()));
+    TextComponent prefix = manager.getPrefix(matcher.group(2).trim());
+    TextComponent nameTag = prefix.append(event.nameTag());
+    event.setNameTag(nameTag);
   }
 
   public String componentToPlaneText(Component component) {

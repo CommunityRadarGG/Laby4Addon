@@ -3,10 +3,8 @@ package de.bypander.communityradar.commands.radar.list;
 import de.bypander.communityradar.CommunityRadar;
 import de.bypander.communityradar.ListManager.ListItem;
 import de.bypander.communityradar.ListManager.ListManger;
-import net.labymod.api.Laby;
 import net.labymod.api.client.chat.command.SubCommand;
 import net.labymod.api.client.component.Component;
-import net.labymod.api.client.network.server.ServerData;
 import net.labymod.api.util.I18n;
 
 public class RadarListPrefixSubCommand extends SubCommand {
@@ -29,7 +27,7 @@ public class RadarListPrefixSubCommand extends SubCommand {
 
     ListItem list = ListManger.get().getListItem(arguments[0]);
     if (list != null) {
-      boolean b = list.setPrefix(arguments[1]);
+      boolean b = list.setPrefix(Component.text(arguments[1].replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1")));
       if (b) {
         sb.append(I18n.translate("communityradar.command.list.prefix.success").replace("{prefix}", arguments[1]));
         this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.toString())));

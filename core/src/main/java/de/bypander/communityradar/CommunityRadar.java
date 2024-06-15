@@ -26,8 +26,10 @@ public class CommunityRadar extends LabyAddon<CommunityRadarConfig> {
     addon = this;
     this.registerSettingCategory();
     ListManger manger = new ListManger(Constants.Files.CONFIGS + "/communityradar/");
-    manger.addPublicList("communityradarscammer", "§scammer", "https://lists.community-radar.de/versions/v1/scammer.json");
-    manger.addPublicList("verbvllerttrusted", "§trusted", "https://lists.community-radar.de/versions/v1/trusted.json");
+    TextComponent scammer = Component.text(configuration().getScammerSubConfig().getPrefix().get().replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1"));
+    TextComponent trust = Component.text(configuration().getTrustedMMSubConfig().getPrefix().get().replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1"));
+    manger.addPublicList("communityradarscammer", scammer, "https://lists.community-radar.de/versions/v1/scammer.json");
+    manger.addPublicList("verbvllerttrusted", trust, "https://lists.community-radar.de/versions/v1/trusted.json");
 
     this.registerListener(new MessageReceiveListener(this));
     this.registerListener(new NameTagListener(this));
@@ -40,16 +42,6 @@ public class CommunityRadar extends LabyAddon<CommunityRadarConfig> {
 
   public static CommunityRadar get() {
     return addon;
-  }
-
-  public String prefix(String prefix) {
-    if (prefix.trim().equals("§scammer"))
-      return CommunityRadar.get().configuration().getScammerSubConfig().getPrefix().get() + " ";
-
-    if (prefix.trim().equals("§trusted"))
-      return  CommunityRadar.get().configuration().getTrustedMMSubConfig().getPrefix().get() + " ";
-
-    return prefix;
   }
 
   public Boolean onGriefergames() {

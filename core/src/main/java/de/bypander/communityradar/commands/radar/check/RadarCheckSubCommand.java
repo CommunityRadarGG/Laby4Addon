@@ -10,7 +10,6 @@ import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.client.network.NetworkPlayerInfo;
 import net.labymod.api.util.I18n;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,14 +48,14 @@ public class RadarCheckSubCommand extends SubCommand {
         if (!manager.inList(name))
           continue;
 
-        String pr = addon.prefix(manager.getPrefix(name));
+        String pr = manager.getPrefix(name).getText();
         sb.append("\n§c").append(name).append("§7:§e ").append(pr);
       }
 
       if (sb.toString().endsWith(I18n.translate("communityradar.command.check.everyone")))
         sb.append(I18n.translate("communityradar.command.check.nopersoninlist"));
     } else if (ListManger.get().inList(arguments[0])) {
-      String p = addon.prefix(manager.getPrefix(arguments[0]));
+      String p = manager.getPrefix(arguments[0]).getText();
 
       Player player = manager.getPlayer(arguments[0]);
       assert player != null;

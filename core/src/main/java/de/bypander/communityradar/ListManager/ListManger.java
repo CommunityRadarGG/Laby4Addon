@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import de.bypander.communityradar.listener.GsonLocalDateTimeAdapter;
-import net.labymod.api.Laby;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.TextComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,7 +17,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -58,12 +57,12 @@ public class ListManger {
    * @param name Name of the player
    * @return If found: Prefix to add otherwise empty String.
    */
-  public String getPrefix(String name) {
+  public TextComponent getPrefix(String name) {
     for (ListItem listItem : lists) {
       if (listItem.inList(name))
-        return listItem.getPrefix() + " ";
+        return listItem.getPrefix().copy();
     }
-    return "";
+    return Component.text("");
   }
 
   /**
@@ -150,7 +149,9 @@ public class ListManger {
   public void saveList(ListItem listItem) {
     if (listItem.getListType() != ListType.PRIVATE)
       return;
-    Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeAdapter()).setPrettyPrinting().create();
+    Gson gson = new GsonBuilder().registerTypeAdapter(TextComponent.class, new TextComponentAdapter())
+                                 .registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeAdapter())
+                                 .setPrettyPrinting().create();
     String json = gson.toJson(listItem);
     try (FileWriter writer = new FileWriter(folderurl + listItem.getNamespace() + ".json")) {
       writer.write(json);
@@ -166,7 +167,7 @@ public class ListManger {
    * @param prefix    Prefix that should be added before the player name.
    * @return If list gets added: true, otherwise false.
    */
-  public Boolean addPrivateList(@NotNull String namespace, @NotNull String prefix) {
+  public Boolean addPrivateList(@NotNull String namespace, @NotNull TextComponent prefix) {
     if (namespace.toLowerCase().endsWith("settings"))
       return false;
     for (String s : getNamespaces()) {
@@ -184,7 +185,7 @@ public class ListManger {
    * @param prefix    Prefix that should be added before the player name.
    * @return If list gets added: true, otherwise false.
    */
-  public Boolean addPublicList(@NotNull String namespace, @NotNull String prefix, @NotNull String url) {
+  public Boolean addPublicList(@NotNull String namespace, @NotNull TextComponent prefix, @NotNull String url) {
     for (String s : getNamespaces()) {
       if (s.equals(namespace.toLowerCase())) return false;
     }
@@ -262,7 +263,9 @@ public class ListManger {
   private ListItem loadListItemFromFile(String fileurl) {
     if (fileurl.endsWith("settings.json"))
       return null;
-    Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeAdapter()).create();
+    Gson gson = new GsonBuilder().registerTypeAdapter(TextComponent.class, new TextComponentAdapter())
+                                 .registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeAdapter())
+                                 .setPrettyPrinting().create();
     try {
       FileReader reader = new FileReader(fileurl.replace("%20", " "));
       System.out.println("Loaded list from Path: " + fileurl.replace("%20", " "));
