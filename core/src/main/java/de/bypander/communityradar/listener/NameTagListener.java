@@ -5,8 +5,10 @@ import de.bypander.communityradar.ListManager.ListManger;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
+import net.labymod.api.client.network.NetworkPlayerInfo;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.render.PlayerNameTagRenderEvent;
+import net.labymod.api.mojang.GameProfile;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,13 +16,16 @@ import java.util.regex.Pattern;
 public class NameTagListener {
 
   private CommunityRadar addon;
-  private final Pattern nameTagRegex = Pattern.compile("([A-Za-z\\-]+\\+?) \\u2503 (\\!?\\w{1,16})");
   ListManger manager;
   public NameTagListener(CommunityRadar addon) {
     this.addon = addon;
     manager = ListManger.get();
   }
 
+  /*
+  It is necessary to set the prefix every tick because the griefergames addon sets the prefix every tick to the display name
+  (this is needed to show animations in the nametag) and would overwrite the nametag with the prefix.
+   */
   @Subscribe(100)
   public void onRender(PlayerNameTagRenderEvent event) {
     if (!CommunityRadar.get().onGriefergames())
@@ -29,20 +34,19 @@ public class NameTagListener {
     if (!addon.configuration().getMarkOverHead().get())
       return;
 
-    Matcher matcher = nameTagRegex.matcher(componentToPlaneText(event.nameTag()));
-    if (!matcher.find()) {
+    NetworkPlayerInfo info = event.playerInfo();
+    if (info == null)
       return;
-    }
+    GameProfile profile = info.profile();
+    if (profile == null)
+      return;
+    String name = profile.getUsername();
 
-    if (!manager.inList(matcher.group(2).trim()))
+    TextComponent prefix = manager.getPrefix(name.trim());
+    if (prefix.getText().isBlank())
       return;
 
-    TextComponent prefix = manager.getPrefix(matcher.group(2).trim());
     TextComponent nameTag = prefix.append(event.nameTag());
     event.setNameTag(nameTag);
-  }
-
-  public String componentToPlaneText(Component component) {
-    return Laby.references().componentRenderer().plainSerializer().serialize(component);
   }
 }
