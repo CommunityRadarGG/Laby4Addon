@@ -2,8 +2,10 @@ package de.bypander.communityradar.listener;
 
 import de.bypander.communityradar.ListManager.ListManger;
 import net.labymod.api.Laby;
+import net.labymod.api.client.chat.ChatMessage;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
+import net.labymod.api.client.component.event.ClickEvent;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import de.bypander.communityradar.CommunityRadar;
@@ -13,9 +15,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Parts of the logic is from the Scammerinfo Addon: <a href="https://github.com/Neocraftr/LabyMod-ScammerInfo/tree/master">Addon</a>
- */
 public class MessageReceiveListener {
 
   private final CommunityRadar addon;
@@ -26,7 +25,7 @@ public class MessageReceiveListener {
     this.addon = addon;
   }
 
-  @Subscribe
+  @Subscribe(-100)
   public void onMessage(ChatReceiveEvent event) {
     if (!CommunityRadar.get().onGriefergames())
       return;
@@ -48,29 +47,23 @@ public class MessageReceiveListener {
 
 
     int index = 0;
-    for (int i = 0; i < event.chatMessage().component().getChildren().size(); i++) {
-      TextComponent child = (TextComponent) event.chatMessage().component().getChildren().get(i);
-      Matcher m = globalChatRegex.matcher(componentToPlaneText(child));
-      if (!m.find())
+    List<Component> childs = event.chatMessage().component().getChildren();
+    for(int i = 0; i < childs.size(); i++) {
+      if (childs.get(i).style().getClickEvent() == null)
         continue;
-
-      if (i > 0) {
-        String clanTag = componentToFormattedText(event.chatMessage().component().getChildren().get(i - 1));
-        if (clanTag.contains("§r§6[") && clanTag.contains("§r§6]"))
-          index--;
+      if (childs.get(i).style().getClickEvent().getValue().startsWith("/clan info")) {
+        index = i;
+        break;
+      }
+      if (childs.get(i).style().getClickEvent().getValue().startsWith("/msg")) {
+        index = i;
+        break;
       }
     }
-    List<Component> childs = event.chatMessage().component().getChildren();
+
     ArrayList<Component> arraylist = new ArrayList<>(childs);
+    System.out.println(index);
     arraylist.add(index, prefix);
     event.setMessage(event.message().setChildren(arraylist));
-  }
-
-  public String componentToFormattedText(Component component) {
-    return Laby.references().componentRenderer().legacySectionSerializer().serialize(component);
-  }
-
-  public String componentToPlaneText(Component component) {
-    return Laby.references().componentRenderer().plainSerializer().serialize(component);
   }
 }
