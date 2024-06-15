@@ -1,4 +1,4 @@
-package de.bypander.communityradar.listener;
+package de.bypander.communityradar.ListManager;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
