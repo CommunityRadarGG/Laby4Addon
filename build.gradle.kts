@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "de.bypander"
-version = "1.0.0"
+version = "1.0.2"
 
 labyMod {
     defaultPackageName = "de.bypander.communityradar" //change this to your main package name (used by all modules)
