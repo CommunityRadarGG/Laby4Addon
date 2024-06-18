@@ -3,8 +3,11 @@ package de.bypander.communityradar.ListManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
+import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
@@ -20,14 +23,19 @@ import java.util.*;
  */
 public class ListItem {
   private final String namespace;
-  private final String url;
+  private transient String url;
   private final HashMap<String, Player> playerMap;
-  private TextComponent prefix;
+  private transient TextComponent prefix;
+  @SerializedName("prefix")
+  private String prefixString = "";
+  @SerializedName("visibility")
   private final ListType listType;
+  private int VERSION = 1;
 
-  public ListItem(String namespace, TextComponent prefix, String url, ListType listType) {
+  public ListItem(@NotNull String namespace, @NotNull TextComponent prefix, String url, ListType listType) {
     this.namespace = namespace.toLowerCase();
-    this.prefix = prefix;
+    this.prefix = Component.text(prefix.getText() + " ");
+    updatePrefix();
     this.url = url;
     this.listType = listType;
     playerMap = new HashMap<>();
@@ -86,13 +94,18 @@ public class ListItem {
     return playerMap;
   }
 
+  public void setUrl(String url) {
+    this.url = url;
+  }
+
   /**
    * @param prefix New prefix for the list.
    * @return Sets the prefix of a list.
    */
-  public boolean setPrefix(TextComponent prefix) {
+  public boolean setPrefix(@NotNull TextComponent prefix) {
     if (listType != ListType.PRIVATE) return false;
-    this.prefix = prefix;
+    this.prefix = Component.text(prefix.getText() + " ");
+    updatePrefix();
     saveList();
     return true;
   }
@@ -103,9 +116,15 @@ public class ListItem {
    */
   public boolean setPrefixInConfig(TextComponent prefix) {
     if (listType != ListType.PUBLIC) return false;
-    this.prefix = prefix;
+    this.prefix = Component.text(prefix.getText() + " ");
     saveList();
     return true;
+  }
+
+  public void updatePrefix() {
+    if (this.prefix == null)
+      prefix = Component.text(this.prefixString + " ");
+    this.prefixString = prefix.getText().trim();
   }
 
   /**
@@ -153,8 +172,8 @@ public class ListItem {
    * Downloads a Public list.
    */
   private void loadPublicList() {
-    Gson gson = new GsonBuilder().registerTypeAdapter(TextComponent.class, new TextComponentAdapter())
-                                 .registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeAdapter())
+    Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeAdapter())
+                                 .registerTypeAdapter(HashMap.class, new GsonPlayerMapAdapter())
                                  .setPrettyPrinting().create();
     try {
       URL url = new URL(this.url);

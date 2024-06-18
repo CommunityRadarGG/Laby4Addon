@@ -14,6 +14,11 @@ import net.labymod.api.models.addon.annotation.AddonMain;
 import de.bypander.communityradar.listener.MessageReceiveListener;
 import net.labymod.api.util.I18n;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 @AddonMain
 public class CommunityRadar extends LabyAddon<CommunityRadarConfig> {
   private static CommunityRadar addon;
@@ -27,7 +32,12 @@ public class CommunityRadar extends LabyAddon<CommunityRadarConfig> {
     addon = this;
     this.registerSettingCategory();
     addonPrefix = Component.text(I18n.translate("communityradar.custom.prefix"));
-    ListManger manger = new ListManger(Constants.Files.CONFIGS + "/communityradar/");
+    try {
+      Files.createDirectories(Paths.get("communityradar", "lists"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    ListManger manger = new ListManger("communityradar/lists/");
     TextComponent scammer = Component.text(configuration().getScammerSubConfig().getPrefix().get().replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1"));
     TextComponent trust = Component.text(configuration().getTrustedMMSubConfig().getPrefix().get().replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1"));
     manger.addPublicList("communityradarscammer", scammer, "https://lists.community-radar.de/versions/v1/scammer.json");

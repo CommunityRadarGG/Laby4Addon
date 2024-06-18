@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -149,8 +150,8 @@ public class ListManger {
   public void saveList(ListItem listItem) {
     if (listItem.getListType() != ListType.PRIVATE)
       return;
-    Gson gson = new GsonBuilder().registerTypeAdapter(TextComponent.class, new TextComponentAdapter())
-                                 .registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeAdapter())
+    Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeAdapter())
+                                 .registerTypeAdapter(HashMap.class, new GsonPlayerMapAdapter())
                                  .setPrettyPrinting().create();
     String json = gson.toJson(listItem);
     try (FileWriter writer = new FileWriter(folderurl + listItem.getNamespace() + ".json")) {
@@ -263,13 +264,16 @@ public class ListManger {
   private ListItem loadListItemFromFile(String fileurl) {
     if (fileurl.endsWith("settings.json"))
       return null;
-    Gson gson = new GsonBuilder().registerTypeAdapter(TextComponent.class, new TextComponentAdapter())
-                                 .registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeAdapter())
+    Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeAdapter())
+                                 .registerTypeAdapter(HashMap.class, new GsonPlayerMapAdapter())
                                  .setPrettyPrinting().create();
     try {
       FileReader reader = new FileReader(fileurl.replace("%20", " "));
       System.out.println("Loaded list from Path: " + fileurl.replace("%20", " "));
-      return gson.fromJson(reader, new TypeToken<ListItem>() {}.getType());
+      ListItem item = gson.fromJson(reader, new TypeToken<ListItem>() {}.getType());
+      item.updatePrefix();
+      item.setUrl(folderurl + item.getNamespace() + ".json");
+      return item;
     } catch (IOException | IllegalStateException e) {
       e.printStackTrace();
     }
