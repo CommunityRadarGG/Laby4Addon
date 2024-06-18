@@ -27,7 +27,7 @@ public class RadarListPrefixSubCommand extends SubCommand {
 
     ListItem list = ListManger.get().getListItem(arguments[0]);
     if (list != null) {
-      boolean b = list.setPrefix(Component.text(arguments[1].replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1")));
+      boolean b = list.setPrefix(Component.text(arguments[1].replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1") + " "));
       if (b) {
         sb.append(I18n.translate("communityradar.command.list.prefix.success").replace("{prefix}", arguments[1]));
         this.displayMessage(CommunityRadar.get().getAddonPrefix().append(Component.text(sb.toString())));

@@ -44,10 +44,10 @@ public class CommunityRadarConfig extends AddonConfig {
   public void reloadPrefix() {
     ListItem scammer = ListManger.get().getListItem("communityradarscammer");
     if (scammer != null)
-      scammer.setPrefixInConfig(Component.text(scammerSubConfig.getPrefix().get().replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1")));
+      scammer.setPrefixInConfig(Component.text(scammerSubConfig.getPrefix().get().replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1") + " "));
     ListItem trusted = ListManger.get().getListItem("verbvllerttrusted");
     if (trusted != null)
-      trusted.setPrefixInConfig(Component.text(trustedMMSubConfig.getPrefix().get().replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1")));
+      trusted.setPrefixInConfig(Component.text(trustedMMSubConfig.getPrefix().get().replaceAll("&([0-9a-fA-FlmokrnNMOKR])", "§$1") + " "));
   }
 
   @SpriteSlot(x = 5, y = 0)
